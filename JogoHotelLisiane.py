@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 import datetime
+import os
 import ComoJogar
 
 pygame.init()
@@ -368,7 +369,8 @@ def desenhar_aviso(tela, mensagem, fonte):
 
 def salvar_relatorio(dinheiro, dia, hora, quartos, lista_consumos, lvlhoteldisplay):
     agora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    nome_arquivo = f"relatorio_dia{dia}.txt"
+    pasta = os.path.dirname(os.path.abspath(__file__))
+    nome_arquivo = os.path.join(pasta, f"relatorio_dia{dia}.txt")
     with open(nome_arquivo, "w", encoding="utf-8") as f:
         f.write("=" * 40 + "\n")
         f.write("   RELATÓRIO DE ENCERRAMENTO - HOTEL\n")
@@ -389,6 +391,22 @@ def salvar_relatorio(dinheiro, dia, hora, quartos, lista_consumos, lvlhoteldispl
             f.write("  Nenhum consumo pendente.\n")
         f.write("\n" + "=" * 40 + "\n")
         f.write("Expediente encerrado. Até amanhã!\n")
+
+def desenhar_tela_encerramento(nome_hotel="Hotel Incremental"):
+    tela.fill((0, 30, 60))
+    pygame.draw.rect(tela, (50, 130, 230), (400, 310, 600, 400), border_radius=16)
+    pygame.draw.rect(tela, (255, 255, 255), (400, 310, 600, 400), 3, border_radius=16)
+
+    s1 = fonte_mediabold.render("Expediente encerrado!", True, (255, 255, 255))
+    s2 = fonte_pequena.render("Relatório salvo em relatorio_dia.txt", True, (180, 220, 255))
+    s3 = fonte_pequena.render("Obrigado por jogar!", True, (200, 240, 200))
+
+    tela.blit(s1, (700 - s1.get_width() // 2, 370))
+    tela.blit(s2, (700 - s2.get_width() // 2, 420))
+    tela.blit(s3, (700 - s3.get_width() // 2, 460))
+
+    pygame.display.flip()
+    pygame.time.wait(2500)
 
 while True:
     dt = relogio.tick(60)
@@ -439,6 +457,7 @@ while True:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             salvar_relatorio(dinheiro, dia_jogo, hora_jogo, quartos, lista_consumos, lvlhoteldisplay)
+            desenhar_tela_encerramento()
             pygame.quit()
             sys.exit()
 
