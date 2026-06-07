@@ -2,13 +2,13 @@ Hotel Incremental
 
 Jogo de gerenciamento de hotel desenvolvido em Python com Pygame, como projeto final da disciplina de Raciocínio Algorítmico — PUCPR 2026/1.
 
----
+
 
 Descrição
 
 Você é o administrador de um hotel e precisa gerenciar o estabelecimento em tempo real. Faça check-in de hóspedes, registre consumos, desbloqueie quartos e faça upgrades para evoluir seu hotel de 1 a 3 estrelas. Ao encerrar o expediente, um relatório completo é salvo automaticamente.
 
----
+
 
 Como jogar
 
@@ -28,7 +28,7 @@ Upgrades (painel inferior esquerdo)
 - **+1 Quarto** — desbloqueia um novo quarto
 - **Upg. Hotel** — evolui o hotel para o próximo nível de estrelas
 
----
+
 
 Requisitos
 
@@ -41,7 +41,7 @@ Instalação do Pygame
 pip install pygame
 ```
 
----
+
 
 Como executar
 
@@ -51,7 +51,7 @@ python JogoHotelLisiane.py
 
 > As imagens do jogo já estão incluídas na pasta do projeto e são carregadas automaticamente.
 
----
+
 
 Estrutura do projeto
 
@@ -74,7 +74,7 @@ Projeto Final
  └── README.md
 ```
 
----
+
 
 Relatório de encerramento
 
@@ -86,7 +86,7 @@ Ao fechar o jogo, um arquivo `relatorio_dia{N}.txt` é gerado automaticamente na
 - Status de todos os quartos
 - Consumos pendentes não registrados
 
----
+
 
 Tecnologias utilizadas
 
@@ -99,7 +99,7 @@ Tecnologias utilizadas
 | `math` | Cálculo dinâmico do layout de quartos |
 | `sys` | Encerramento do sistema |
 
----
+
 
 Autor
 
