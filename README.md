@@ -88,19 +88,6 @@ Ao fechar o jogo, um arquivo `relatorio_dia{N}.txt` é gerado automaticamente na
 
 
 
-Tecnologias utilizadas
-
-| Biblioteca | Uso |
-|---|---|
-| `pygame` | Interface gráfica e loop do jogo |
-| `random` | Geração de hóspedes e pedidos aleatórios |
-| `datetime` | Registro da hora real no relatório |
-| `os` | Manipulação de caminhos de arquivo |
-| `math` | Cálculo dinâmico do layout de quartos |
-| `sys` | Encerramento do sistema |
-
-
-
 Autor
 
 Pedro — Engenharia de Software, PUCPR  
