@@ -21,9 +21,10 @@ filtro = pygame.Surface((685, 330))
 filtro.set_alpha(180)
 filtro.fill((160, 160, 160))
 
-btn_upgquarto = pygame.Rect(400, 760, 180, 50)
-btn_morequarto = pygame.Rect(400, 840, 180, 50)
-btn_upghotel = pygame.Rect(400, 920, 180, 50)
+btn_upgquarto = pygame.Rect(250, 760, 200, 50)
+btn_morequarto = pygame.Rect(250, 840, 200, 50)
+btn_upghotel = pygame.Rect(250, 920, 200, 50)
+btn_ajuda = pygame.Rect(1340, 25, 40, 40)
 
 img_hotel = pygame.transform.scale(pygame.image.load("hotel1estrela.png"), (1380, 324))
 img_recepcao = pygame.transform.scale(pygame.image.load("recepcao1estrela.png"), (685, 330))
@@ -38,18 +39,16 @@ mensagem_aviso = ""
 mostrar_tutorial = True
 
 NIVEL_CONFIG = {
-    1: {"preco_hotel": 10_000, "preco_upgq": 100, "preco_moreq": 300, "receita": 10, "max_upg": 10},
-    2: {"preco_hotel": 25_000, "preco_upgq": 400, "preco_moreq": 800, "receita": 30, "max_upg": 10},
-    3: {"preco_hotel": 60_000, "preco_upgq": 1_200, "preco_moreq": 2_000, "receita": 80, "max_upg": 10},
-    4: {"preco_hotel": 150_000, "preco_upgq": 4_000, "preco_moreq": 6_000, "receita": 200, "max_upg": 10},
-    5: {"preco_hotel": -1, "preco_upgq": 12_000, "preco_moreq": 18_000, "receita": 500, "max_upg": 10},
-}
+    1: {"preco_hotel": 3_000, "preco_upgq": 100, "preco_moreq": 300, "receita": 10, "max_upg": 10},
+    2: {"preco_hotel": 10_000, "preco_upgq": 400, "preco_moreq": 800, "receita": 30, "max_upg": 10},
+    3: {"preco_hotel": 15_000, "preco_upgq": 1_200, "preco_moreq": 2_000, "receita": 80, "max_upg": 10},
+    }
 
 def cfg():
     return NIVEL_CONFIG[lvlhoteldisplay]
 
 
-dinheiro = 5000000.00
+dinheiro = 0.00
 MS_POR_MINUTO_JOGO = 6000
 acumulador_receita = 0
 
@@ -69,7 +68,7 @@ NOMES = [
 ]
 
 acumulador_hospede = 0
-MS_ENTRE_HOSPEDES = 20000
+MS_ENTRE_HOSPEDES = random.randint(12000, 20000)
 MAX_FILA_HOSPEDES = 6
 
 fila_hospedes = []
@@ -100,7 +99,7 @@ ITENS_CONSUMO = [
 lista_consumos = []
 consumo_selecionado = None
 acumulador_consumo = 0
-MS_ENTRE_CONSUMOS = 12000
+MS_ENTRE_CONSUMOS = random.randint(8000, 12000)
 MAX_LISTA_CONSUMOS = 6
 
 
@@ -311,6 +310,12 @@ def desenhar_painel_status(dinheiro, hora, dia):
     texto_din = f"R$ {dinheiro:,.2f}".replace(",", ".")
     cor_din = (0, 140, 60) if dinheiro >= 0 else (200, 40, 40)
     tela.blit(fonte_pequenabold.render(texto_din, True, cor_din), (24, 58))
+    cor_btn_ajuda = (80, 160, 255) if btn_ajuda.collidepoint(mouse) else (50, 130, 230)
+    pygame.draw.rect(tela, cor_btn_ajuda, btn_ajuda, border_radius=8)
+    pygame.draw.rect(tela, (255, 255, 255), btn_ajuda, 2, border_radius=8)
+    txt_ajuda = fonte_mediabold.render("?", True, (255, 255, 255))
+    tela.blit(txt_ajuda, (btn_ajuda.x + (btn_ajuda.width - txt_ajuda.get_width()) // 2,
+                          btn_ajuda.y + (btn_ajuda.height - txt_ajuda.get_height()) // 2 - 2))
 
 def desenhar_badge(cx, cy, texto, cor_fundo=(50, 130, 230), cor_texto=(255, 255, 255)):
     surf = fonte_tinybold.render(texto, True, cor_texto)
@@ -340,7 +345,6 @@ def desenhar_btn(rect, label, sublabel, maxed, mouse):
         tela.blit(s2, (rect.x + (rect.width - s2.get_width()) // 2, rect.y + 28))
 
 def desenhar_aviso(tela, mensagem, fonte):
-    #fundo ecuro
     overlay = pygame.Surface((1400, 1020))
     overlay.set_alpha(150)
     overlay.fill((0, 0, 0))
@@ -416,6 +420,10 @@ while True:
         if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1 and not mostrar_aviso and not mostrar_tutorial:
 
             clicou_algo = False
+
+            if btn_ajuda.collidepoint(mouse) and not mostrar_tutorial:
+                mostrar_tutorial = True
+                clicou_algo = True
 
             for i, nome in enumerate(fila_hospedes):
                 card = pygame.Rect(28, 405 + i * 40, 318, 34)
