@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import datetime
 import ComoJogar
 
 pygame.init()
@@ -363,8 +364,31 @@ def desenhar_aviso(tela, mensagem, fonte):
     tok = fonte.render("OK", True, (255, 255, 255))
     tela.blit(tok, (btn_ok.x + (btn_ok.width - tok.get_width()) // 2,
                     btn_ok.y + (btn_ok.height - tok.get_height()) // 2))
-
     return btn_ok
+
+def salvar_relatorio(dinheiro, dia, hora, quartos, lista_consumos, lvlhoteldisplay):
+    agora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    nome_arquivo = f"relatorio_dia{dia}.txt"
+    with open(nome_arquivo, "w", encoding="utf-8") as f:
+        f.write("=" * 40 + "\n")
+        f.write("   RELATÓRIO DE ENCERRAMENTO - HOTEL\n")
+        f.write("=" * 40 + "\n")
+        f.write(f"Gerado em: {agora}\n")
+        f.write(f"Nível do hotel: {lvlhoteldisplay} estrela(s)\n")
+        f.write(f"Dia do jogo: {dia} | Hora de encerramento: {hora:02d}:00\n")
+        f.write(f"Faturamento total: R$ {dinheiro:,.2f}\n".replace(",", "."))
+        f.write("\n--- QUARTOS ---\n")
+        for q in quartos:
+            hospede = q["hospede"] if q["hospede"] else "-"
+            f.write(f"  Quarto {q['id']:02d}: {q['status'].upper():<10} | Hóspede: {hospede}\n")
+        f.write("\n--- CONSUMOS PENDENTES ---\n")
+        if lista_consumos:
+            for c in lista_consumos:
+                f.write(f"  Q{c['quarto_id']} | {c['hospede']} | {c['item']} - R$ {c['preco']:.2f}\n")
+        else:
+            f.write("  Nenhum consumo pendente.\n")
+        f.write("\n" + "=" * 40 + "\n")
+        f.write("Expediente encerrado. Até amanhã!\n")
 
 while True:
     dt = relogio.tick(60)
@@ -414,6 +438,7 @@ while True:
 
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
+            salvar_relatorio(dinheiro, dia_jogo, hora_jogo, quartos, lista_consumos, lvlhoteldisplay)
             pygame.quit()
             sys.exit()
 
