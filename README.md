@@ -88,7 +88,10 @@ Ao fechar o jogo, um arquivo `relatorio_dia{N}.txt` é gerado automaticamente na
 
 
 
-Autor
-
-Pedro — Engenharia de Software, PUCPR  
+Autores
+Guilherme Kadubitz
+Vinicius Marcondes
+Luigi Pietrobon
+Pedro Steck
+— Engenharia de Software, PUCPR  
 GitHub: [@Pyroo0](https://github.com/Pyroo0)
